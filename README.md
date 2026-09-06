@@ -1,45 +1,17 @@
-# CSPC — Computer Science for Physics and Chemistry
-
-My coursework repository for the course.
-Each practical lives under `PW<n>/Lab <X>/`.
-
+# CSPC - Computer Science for Physics and Chemistry
+My coursework repository. Each practical is under PW<n>/Lab <X>/.
 ## Setup
-
-Create and activate the environment for a given lab:
-
-```bash
-conda env create -f "PW<n>/Lab <X>/environment.yml"
+Create the environment for a given lab:
+conda env create -f PW<n>/Lab\ <X>/environment.yml
 conda activate cspc
-```
-
-Run the tests for a lab from inside its folder:
-
-```bash
-cd "PW<n>/Lab <X>"
-pytest -v
-```
-
 ---
-
-## PW1 — Lab A: Reproducible Foundations
-
+## PW1 - Lab A: Reproducible Foundations
 **What I built:**
-- <one or two lines: the CSPC repo, the environment, the decay simulation, the tests>
-
+- This PW session is about simulating how atoms decay over time by using code.
 **Speed comparison (loop vs NumPy):**
-
-| version | time (s) |
-|---------|----------|
-| pure-Python loop | ... |
-| NumPy (vectorised) | ... |
-
-- Speed-up: **... × faster**
-
-**Tests:** all passing? (yes / no)
-
+- loop : 1.5806 s
+- numpy : 0.0002 s
+- speed-up: 6418.45x faster
+**Tests:** all passing? (yes)
 **Conclusion:**
-- <2–3 sentences: what worked, what you learned, any problems you hit and how you solved them>
-
----
-
-<!-- Future sessions: add a new "## PW<n> — Lab <X>" section below. -->
+- In this lab, we needed to simulate radioactive decay accurately and make it run fast for large numbers of atoms. We solved the speed problem by using NumPy instead of slow Python loops, and we fixed our math testing errors by adding parentheses to evaluate the step-by-step decay formula correctly. Through this, we learned how to write automated tests with pytest and measure performance improvements in scientific code.
