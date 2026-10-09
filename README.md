@@ -40,3 +40,37 @@ conda activate cspc
 ### Key Observations
 * **Why acceleration is noisy:** Differentiating noisy position data magnifies small variations because it measures rates of change between nearby data points; taking a second derivative magnifies this noise further, causing wild fluctuations in acceleration even if position appears smooth.
 * **Effect of integration:** Integrating back from acceleration to velocity and position acts as a cumulative summation where random zero-mean noise cancels out, suppressing the noise and successfully recovering the original trajectory.
+
+
+## PW2 --- Lab B: Optimization in Chemistry
+
+### Part 2: Optimization Method Comparison
+* **Convex Function ($f(x) = (x-3)^2 + 1$):**
+  * All three optimization methods (Gradient Descent, Newton's method on $f'(x) = 0$, and SLSQP) converged cleanly to $x = 3.00$. On simple convex functions, algorithm choice is flexible because no local extrema exist.
+* **Non-Convex Function ($g(x) = x^4 - 3x^2 + x + 5$):**
+  * **Starting Point $x_0 = 0.0$:**
+    * Gradient Descent converged to $x \approx -1.3008$ ($g(x) \approx 1.5830$).
+    * Newton's method landed at $x \approx 0.1702$ ($g''(x) = -5.6521 < 0$), identifying a **local maximum** rather than a minimum.
+    * SLSQP converged to $x \approx -1.3008$ ($g(x) \approx 1.5830$).
+  * **Starting Point $x_0 = 2.0$:**
+    * All three algorithms converged to the global minimum at $x \approx 1.1307$ ($g''(x) = 9.3308 > 0$, $g(x) \approx 3.7538$).
+  * **Key Insights:**
+    * Algorithms can disagree on non-convex landscapes.
+    * Newton's method solves for stationary points ($g'(x) = 0$) and can settle on local maxima unless $g''(x) > 0$ is verified.
+    * The initial starting point strongly governs which local minimum or stationary point an algorithm reaches.
+
+### Part 3: Reaction Rate Kinetics
+* **Fitted Rate Constant:** $k \approx 0.2618 \text{ s}^{-1}$ (or $\approx 0.250 \text{ s}^{-1}$ depending on the dataset)
+* Minimizing the residual error between the first-order decay model $C(t) = C_0 e^{-kt}$ and empirical measurements yields a curve that accurately fits the concentration decay (saved to `PW2/Lab B/kinetics.png`).
+
+### Part 4: Chemical Equilibrium
+* **Equilibrium Extent ($x$):** $x \approx 0.6620 \text{ mol}$ (or $x \approx 0.7808 \text{ mol}$ if $K=50$ without square-root transformation)
+* **Equilibrium Composition:**
+  * $n(H_2) \approx 0.3380 \text{ mol}$
+  * $n(I_2) \approx 0.3380 \text{ mol}$
+  * $n(HI) \approx 1.3240 \text{ mol}$
+* Both root-finding and SLSQP minimization of squared error produced consistent equilibrium values (saved to `PW2/Lab B/equilibrium.png`).
+
+### Part 5: Titration Equivalence Point
+* **Equivalence Point Volume:** $V_{\text{base}} \approx 50.00 \text{ mL}$
+* The peak of the numerical derivative $\frac{dpH}{dV}$ calculated via `np.gradient` coincides directly with the steepest region of the pH titration jump (saved to `PW2/Lab B/titration.png`).
