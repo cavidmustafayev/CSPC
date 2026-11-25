@@ -74,3 +74,62 @@ conda activate cspc
 ### Part 5: Titration Equivalence Point
 * **Equivalence Point Volume:** $V_{\text{base}} \approx 50.00 \text{ mL}$
 * The peak of the numerical derivative $\frac{dpH}{dV}$ calculated via `np.gradient` coincides directly with the steepest region of the pH titration jump (saved to `PW2/Lab B/titration.png`).
+
+
+
+
+# PW 3:
+
+## Session 1: Characterise the Data
+
+### Data Summary
+* Dataset shape: `(303, 14)`
+* Continuous features: `age`, `chol`, `trestbps`, `thalach`
+
+### Normality Checks & Verdicts
+Using visual inspection (histograms with bins=20) and the **Shapiro-Wilk test** ($\alpha = 0.05$):
+* **`age`**: Approximately symmetric/bell-shaped ($p > 0.05$). **Verdict: Normal.**
+* **`thalach`**: Slightly left-skewed, but satisfies approximate normality ($p > 0.05$). **Verdict: Normal.**
+* **`chol`**: Moderately right-skewed with high-value outliers ($p < 0.05$). **Verdict: Non-Normal.**
+* **`trestbps`**: Right-skewed ($p < 0.05$). **Verdict: Non-Normal.**
+
+---
+
+## Session 2: Draw Conclusions
+
+### Heart Rate Comparison (Disease vs. Healthy)
+* **Method Choice**: Since `thalach` is approximately normally distributed in both groups, a **Two-sample Independent $t$-test** was chosen.
+* **Results**:
+  * Healthy (`target = 0`): Mean `thalach` = $158.38 \pm 2.06$ bpm (Mean ± SEM).
+  * Disease (`target = 1`): Mean `thalach` = $139.14 \pm 1.79$ bpm (Mean ± SEM).
+  * $t$-statistic = $7.02$, $p$-value $< 0.0001$.
+* **Conclusion**: Heart disease patients reach a statistically significantly lower maximum heart rate than healthy patients.
+
+### Age vs. Maximum Heart Rate
+* Pearson correlation: $r \approx -0.40$ ($p < 0.0001$).
+* **Interpretation**: There is a moderate negative relationship between age and maximum heart rate; as age increases, max heart rate decreases.
+
+---
+
+## Dataset 2: Chemicals & Cancer Mystery
+
+### Naive Analysis
+* Benzene vs. Malignancy: $r \approx 0.65$ (Strong positive correlation)
+* Cadmium vs. Malignancy: $r \approx 0.15$ (Weak correlation)
+* **Naive Conclusion**: Benzene appears to be the primary cause driving malignancy.
+
+### Confounder Analysis (`pollution_index`)
+* Controlling for regional pollution (`pollution_index`):
+  * Benzene correlation drops close to $0$.
+  * Cadmium correlation increases significantly ($r \approx 0.55+$).
+* **Conclusion**: **Cadmium** is the true causal driver. **Benzene** only appeared guilty due to confounding by `pollution_index` (spurious correlation).
+
+
+
+
+# PW4 — Machine Learning: Supervised and Unsupervised
+
+## Reproduction
+Run the full pipeline from inside `PW4/`:
+```bash
+snakemake --cores 1
